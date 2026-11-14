@@ -1,6 +1,6 @@
 import { MessageCircle, Menu, X, Globe, ShoppingCart, Check, Sparkles, Film, Palette, Monitor, Search, PhoneCall } from 'lucide-react';
 import { motion, useScroll } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { CustomCursor } from '@/app/components/CustomCursor';
 
@@ -201,21 +201,64 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeWorkCard, setActiveWorkCard] = useState<number | null>(null);
 
+  // Mobile Viewport Scroll Trigger for Work Cards
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerWidth >= 1024) {
+        setActiveWorkCard(null);
+        return;
+      }
+      const cards = document.querySelectorAll('.work-card');
+      const viewportCenter = window.innerHeight / 2;
+      let closestIndex: number | null = null;
+      let minDistance = Infinity;
+
+      cards.forEach((card, idx) => {
+        const rect = card.getBoundingClientRect();
+        if (rect.bottom > 80 && rect.top < window.innerHeight - 80) {
+          const cardCenter = rect.top + rect.height / 2;
+          const dist = Math.abs(cardCenter - viewportCenter);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestIndex = idx;
+          }
+        }
+      });
+
+      const threshold = window.innerHeight * 0.42;
+      if (closestIndex !== null && minDistance < threshold) {
+        setActiveWorkCard(closestIndex);
+      } else {
+        setActiveWorkCard(null);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, []);
+
   const workCardsData = [
     {
       id: "topgear",
       name: "TOPGEAR HQ",
       tag: "AUTOMOTIVE & E-COMMERCE",
+      siteUrl: "https://www.topgearhq.in/",
       cardClass: "work-card-topgear border-purple-500/30",
       logo: workTopgearImg,
       logoClass: "max-h-24 sm:max-h-28 w-auto object-contain drop-shadow-xl select-none",
-      bgDefault: "bg-gradient-to-b from-[#170C2C] via-[#381559] to-[#681A9E]",
+      bgDefault: "bg-gradient-to-b from-[#180b2a] via-[#3d1462] to-[#6a1a9f]",
       sparkleColor: "text-purple-200",
       tagColor: "text-purple-200",
       subtextColor: "text-purple-200/80",
       iconBoxClass: "bg-purple-600/35 border-purple-400/30 text-white",
       buttonClass: "bg-gradient-to-r from-[#9810FA] to-[#E60076] hover:brightness-110 shadow-purple-900/50",
-      inquireLink: "https://wa.me/918792359555?text=Hi,%20I%20am%20interested%20in%20solutions%20like%20Topgear%20HQ",
+      inquireLink: "https://www.topgearhq.in/",
       solutions: [
         { icon: Globe, text: "Website design and development" },
         { icon: ShoppingCart, text: "Cart management" },
@@ -226,16 +269,17 @@ export default function App() {
       id: "d24",
       name: "D24 STUDIO",
       tag: "CREATIVE & 3D MEDIA",
+      siteUrl: "https://www.d24.studio/",
       cardClass: "work-card-d24 border-orange-500/30",
       logo: workD24Img,
       logoClass: "max-h-24 sm:max-h-28 w-auto object-contain drop-shadow-[0_0_25px_rgba(255,100,50,0.5)] select-none",
-      bgDefault: "bg-gradient-to-b from-[#22130E] via-[#57291A] to-[#9E3D18]",
+      bgDefault: "bg-gradient-to-b from-[#24130d] via-[#522313] to-[#9b3d17]",
       sparkleColor: "text-orange-300",
       tagColor: "text-orange-200",
       subtextColor: "text-orange-200/80",
       iconBoxClass: "bg-orange-600/35 border-orange-400/30 text-orange-200",
       buttonClass: "bg-gradient-to-r from-[#EA580C] to-[#E60076] hover:brightness-110 shadow-orange-950/50",
-      inquireLink: "https://wa.me/918792359555?text=Hi,%20I%20am%20interested%20in%20solutions%20like%20D24%20Studio",
+      inquireLink: "https://www.d24.studio/",
       solutions: [
         { icon: Film, text: "3D Anamorphic videos" },
         { icon: Palette, text: "Brand identity & visual motion" },
@@ -246,16 +290,17 @@ export default function App() {
       id: "srgroup",
       name: "SR GROUP",
       tag: "CORPORATE & ENTERPRISE",
+      siteUrl: "https://srgroupind.com/",
       cardClass: "work-card-srgroup border-blue-500/30",
       logo: workSrgroupImg,
       logoClass: "max-h-20 sm:max-h-24 w-auto object-contain drop-shadow-[0_0_20px_rgba(56,189,248,0.4)] select-none",
-      bgDefault: "bg-gradient-to-b from-[#07172E] via-[#0B2B5A] to-[#0E489E]",
+      bgDefault: "bg-gradient-to-b from-[#07172c] via-[#0b2d5d] to-[#0d489b]",
       sparkleColor: "text-blue-300",
       tagColor: "text-blue-200",
       subtextColor: "text-blue-200/80",
       iconBoxClass: "bg-blue-600/35 border-blue-400/30 text-blue-200",
       buttonClass: "bg-gradient-to-r from-[#1673ff] to-[#06B6D4] hover:brightness-110 shadow-blue-950/50",
-      inquireLink: "https://wa.me/918792359555?text=Hi,%20I%20am%20interested%20in%20solutions%20like%20SR%20Group",
+      inquireLink: "https://srgroupind.com/",
       solutions: [
         { icon: Monitor, text: "High-converting corporate website" },
         { icon: Search, text: "Google Business optimization" },
@@ -803,7 +848,7 @@ export default function App() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.1 }}
                   transition={{ duration: 0.5, delay: index * 0.15 }}
-                  onClick={() => setActiveWorkCard(isActive ? null : index)}
+                  onClick={() => window.open(card.siteUrl, '_blank', 'noopener,noreferrer')}
                 >
                   {/* Default State */}
                   <div className={`work-card-default ${card.bgDefault}`}>
@@ -835,7 +880,7 @@ export default function App() {
                   <div className="work-card-hover">
                     {/* Top Header Row */}
                     <div className="flex items-center justify-between gap-2 pb-2">
-                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 shadow-inner">
+                      <div className="work-badge">
                         <span className="w-2 h-2 rounded-full bg-white/90" />
                         <span className="text-[11px] font-black tracking-wider text-white uppercase">
                           DELIVERED SOLUTIONS
@@ -851,15 +896,12 @@ export default function App() {
                       {card.solutions.map((sol, sIdx) => {
                         const SolIcon = sol.icon;
                         return (
-                          <div
-                            key={sIdx}
-                            className="bg-black/35 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 flex items-center justify-between shadow-lg"
-                          >
+                          <div key={sIdx} className="work-capsule">
                             <div className="flex items-center gap-3 min-w-0">
                               <div className={`w-10 h-10 rounded-xl ${card.iconBoxClass} flex items-center justify-center flex-shrink-0 shadow-inner`}>
                                 <SolIcon className="w-5 h-5" />
                               </div>
-                              <span className="text-sm sm:text-base font-bold text-white tracking-wide truncate">
+                              <span className="text-xs sm:text-sm font-bold text-white tracking-wide">
                                 {sol.text}
                               </span>
                             </div>
@@ -877,13 +919,13 @@ export default function App() {
                         {card.name}
                       </h3>
                       <a
-                        href={card.inquireLink}
+                        href={card.siteUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={`${card.buttonClass} text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-lg transform hover:scale-105 transition-all`}
                         onClick={(e) => e.stopPropagation()}
                       >
-                        Inquire <span className="text-sm font-bold">↗</span>
+                        Visit Website <span className="text-sm font-bold">↗</span>
                       </a>
                     </div>
                   </div>

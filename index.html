@@ -248,43 +248,90 @@
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            transition: flex 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s ease;
+            transition: flex 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: flex;
+            user-select: none;
         }
 
         .tttt-letter {
             font-weight: 900;
             line-height: 1;
             user-select: none;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
             display: flex;
             align-items: center;
             justify-content: center;
+            will-change: transform;
+        }
+
+        .tttt-badge {
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .tttt-subtext {
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.05s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.05s;
+            pointer-events: none;
         }
 
         /* Desktop & Tablet (md and above): Horizontal Accordion with hover expansion */
         @media (min-width: 768px) {
-            .tttt-container:hover .tttt-section:not(:hover) {
+            .tttt-container:hover .tttt-section:not(:hover),
+            .tttt-container.has-active .tttt-section:not(.is-active) {
                 flex: 0.6;
             }
 
-            .tttt-section:hover {
-                flex: 2.2 !important;
+            .tttt-section:hover,
+            .tttt-section.is-active {
+                flex: 2.3 !important;
             }
 
-            .tttt-section:hover .tttt-letter {
-                transform: scale(1.1);
+            .tttt-section:hover .tttt-letter,
+            .tttt-section.is-active .tttt-letter {
+                transform: scale(1.12);
+            }
+
+            .tttt-section:hover .tttt-badge,
+            .tttt-section.is-active .tttt-badge {
+                transform: scale(1.06) translateY(-2px);
+                box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.22);
+            }
+
+            .tttt-section:hover .tttt-subtext,
+            .tttt-section.is-active .tttt-subtext {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        /* Mobile letter sizing (< 768px): Centered stacked bands */
+        /* Mobile layout & vertical expansion (< 768px) */
         @media (max-width: 767px) {
             .tttt-letter {
                 font-size: clamp(4.5rem, 16vw, 6.5rem);
             }
 
-            .tttt-section:hover .tttt-letter {
+            .tttt-container.has-active .tttt-section:not(.is-active) {
+                flex: 0.65;
+            }
+
+            .tttt-section.is-active {
+                flex: 2.1 !important;
+            }
+
+            .tttt-section.is-active .tttt-letter {
+                transform: scale(1.1);
+            }
+
+            .tttt-section.is-active .tttt-badge {
                 transform: scale(1.05);
+                box-shadow: 0 10px 24px -5px rgba(0, 0, 0, 0.22);
+            }
+
+            .tttt-section.is-active .tttt-subtext {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
@@ -346,35 +393,50 @@
             transform: rotate(360deg) scale(1.18) !important;
         }
 
-        /* Work Cards & Interactive Solutions Hover with Distinct Brand Gradients */
+        /* Work Cards & Interactive Solutions Hover with Smooth Tilt and Brand Gradients */
         .work-card {
             position: relative;
             border-radius: 36px;
             overflow: hidden;
             cursor: pointer;
             min-height: 480px;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.35);
+            transform-origin: center center;
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.4);
+            will-change: transform, box-shadow;
         }
 
-        .work-card:hover,
-        .work-card.is-active {
-            transform: translateY(-8px);
+        .work-card-topgear {
+            border-color: rgba(147, 51, 234, 0.35);
+        }
+
+        .work-card-d24 {
+            border-color: rgba(234, 88, 12, 0.35);
+        }
+
+        .work-card-srgroup {
+            border-color: rgba(37, 99, 235, 0.35);
         }
 
         .work-card-topgear:hover,
         .work-card-topgear.is-active {
-            box-shadow: 0 25px 50px -10px rgba(126, 11, 199, 0.5);
+            transform: translateY(-12px) rotate(-1.8deg) scale(1.02);
+            box-shadow: 0 30px 60px -15px rgba(106, 26, 159, 0.6), 0 0 35px rgba(106, 26, 159, 0.3);
+            border-color: rgba(192, 132, 252, 0.7);
         }
 
         .work-card-d24:hover,
         .work-card-d24.is-active {
-            box-shadow: 0 25px 50px -10px rgba(217, 70, 14, 0.5);
+            transform: translateY(-12px) rotate(1.2deg) scale(1.02);
+            box-shadow: 0 30px 60px -15px rgba(155, 61, 23, 0.6), 0 0 35px rgba(155, 61, 23, 0.3);
+            border-color: rgba(251, 146, 60, 0.7);
         }
 
         .work-card-srgroup:hover,
         .work-card-srgroup.is-active {
-            box-shadow: 0 25px 50px -10px rgba(16, 75, 181, 0.5);
+            transform: translateY(-12px) rotate(2deg) scale(1.02);
+            box-shadow: 0 30px 60px -15px rgba(13, 72, 155, 0.6), 0 0 35px rgba(13, 72, 155, 0.3);
+            border-color: rgba(96, 165, 250, 0.7);
         }
 
         .work-card-default {
@@ -384,7 +446,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
             z-index: 1;
         }
 
@@ -397,22 +459,25 @@
             justify-content: space-between;
             opacity: 0;
             pointer-events: none;
-            transform: translateY(12px) scale(0.97);
-            transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(14px) scale(0.97);
+            transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
             z-index: 2;
         }
 
-        /* Distinct Hover Background Gradients per Brand */
+        /* Distinct Background Gradients per Brand matching 2nd reference image */
+        .work-card-topgear .work-card-default,
         .work-card-topgear .work-card-hover {
-            background: linear-gradient(180deg, #170C2C 0%, #381559 45%, #7e0bc7 100%);
+            background: linear-gradient(180deg, #180b2a 0%, #2f104d 38%, #521680 72%, #6a1a9f 100%);
         }
 
+        .work-card-d24 .work-card-default,
         .work-card-d24 .work-card-hover {
-            background: linear-gradient(180deg, #22130E 0%, #57291A 45%, #b43c0c 100%);
+            background: linear-gradient(180deg, #24130d 0%, #441e13 38%, #6d2e18 72%, #9b3d17 100%);
         }
 
+        .work-card-srgroup .work-card-default,
         .work-card-srgroup .work-card-hover {
-            background: linear-gradient(180deg, #07172E 0%, #0B2B5A 45%, #0e4db8 100%);
+            background: linear-gradient(180deg, #07172c 0%, #0a264e 38%, #0c3877 72%, #0d489b 100%);
         }
 
         .work-card:hover .work-card-default,
@@ -427,6 +492,35 @@
             opacity: 1;
             pointer-events: auto;
             transform: translateY(0) scale(1);
+        }
+
+        /* Clean solution capsules with ZERO milky grey overlay */
+        .work-badge {
+            background: rgba(0, 0, 0, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 9999px;
+            padding: 0.35rem 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .work-capsule {
+            background: rgba(0, 0, 0, 0.24);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 1.1rem;
+            padding: 0.85rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
+            transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .work-capsule:hover {
+            background: rgba(0, 0, 0, 0.35);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateX(3px);
         }
 
         /* Smooth Scroll */
@@ -792,10 +886,10 @@
 
             <!-- Work Cards Grid with Interactive Solutions on Hover -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16 md:mb-20 max-w-6xl mx-auto">
-                <!-- Card 1: TOPGEAR HQ (Royal Purple Theme) -->
-                <div class="work-card work-card-topgear border border-purple-500/30 reveal" onclick="this.classList.toggle('is-active')">
+                <!-- Card 1: TOPGEAR HQ -->
+                <div class="work-card work-card-topgear border border-purple-500/30 reveal" onclick="window.open('https://www.topgearhq.in/', '_blank', 'noopener,noreferrer')">
                     <!-- Default State -->
-                    <div class="work-card-default bg-gradient-to-b from-[#170C2C] via-[#381559] to-[#681A9E]">
+                    <div class="work-card-default">
                         <div></div>
                         <div class="flex items-center justify-center py-12 px-6">
                             <img src="/icons/work_topgear.png" alt="TOPGEAR HQ" class="max-h-24 sm:max-h-28 w-auto object-contain drop-shadow-xl select-none" draggable="false">
@@ -815,7 +909,7 @@
                     <div class="work-card-hover">
                         <!-- Top Header Row -->
                         <div class="flex items-center justify-between gap-2 pb-2">
-                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 shadow-inner">
+                            <div class="work-badge">
                                 <span class="w-2 h-2 rounded-full bg-white/90"></span>
                                 <span class="text-[11px] font-black tracking-wider text-white uppercase">DELIVERED SOLUTIONS</span>
                             </div>
@@ -825,12 +919,12 @@
                         <!-- Solutions Capsules Stack -->
                         <div class="space-y-3 my-auto py-2">
                             <!-- Capsule 1 -->
-                            <div class="bg-black/35 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 flex items-center justify-between shadow-lg">
+                            <div class="work-capsule">
                                 <div class="flex items-center gap-3 min-w-0">
                                     <div class="w-10 h-10 rounded-xl bg-purple-600/35 border border-purple-400/30 flex items-center justify-center text-white flex-shrink-0 shadow-inner">
                                         <i data-lucide="globe" class="w-5 h-5"></i>
                                     </div>
-                                    <span class="text-sm sm:text-base font-bold text-white tracking-wide truncate">Website design and development</span>
+                                    <span class="text-xs sm:text-sm font-bold text-white tracking-wide">Website design and development</span>
                                 </div>
                                 <div class="w-5 h-5 rounded-full border border-teal-400/90 bg-teal-400/10 flex items-center justify-center text-teal-300 flex-shrink-0 ml-2">
                                     <i data-lucide="check" class="w-3 h-3 stroke-[3]"></i>
@@ -838,12 +932,12 @@
                             </div>
 
                             <!-- Capsule 2 -->
-                            <div class="bg-black/35 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 flex items-center justify-between shadow-lg">
+                            <div class="work-capsule">
                                 <div class="flex items-center gap-3 min-w-0">
                                     <div class="w-10 h-10 rounded-xl bg-purple-600/35 border border-purple-400/30 flex items-center justify-center text-white flex-shrink-0 shadow-inner">
                                         <i data-lucide="shopping-cart" class="w-5 h-5"></i>
                                     </div>
-                                    <span class="text-sm sm:text-base font-bold text-white tracking-wide truncate">Cart management</span>
+                                    <span class="text-xs sm:text-sm font-bold text-white tracking-wide">Cart management</span>
                                 </div>
                                 <div class="w-5 h-5 rounded-full border border-teal-400/90 bg-teal-400/10 flex items-center justify-center text-teal-300 flex-shrink-0 ml-2">
                                     <i data-lucide="check" class="w-3 h-3 stroke-[3]"></i>
@@ -851,12 +945,12 @@
                             </div>
 
                             <!-- Capsule 3 -->
-                            <div class="bg-black/35 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 flex items-center justify-between shadow-lg">
+                            <div class="work-capsule">
                                 <div class="flex items-center gap-3 min-w-0">
                                     <div class="w-10 h-10 rounded-xl bg-purple-600/35 border border-purple-400/30 flex items-center justify-center text-white flex-shrink-0 shadow-inner">
                                         <i data-lucide="message-circle" class="w-5 h-5"></i>
                                     </div>
-                                    <span class="text-sm sm:text-base font-bold text-white tracking-wide truncate">WhatsApp inquiry</span>
+                                    <span class="text-xs sm:text-sm font-bold text-white tracking-wide">WhatsApp inquiry</span>
                                 </div>
                                 <div class="w-5 h-5 rounded-full border border-teal-400/90 bg-teal-400/10 flex items-center justify-center text-teal-300 flex-shrink-0 ml-2">
                                     <i data-lucide="check" class="w-3 h-3 stroke-[3]"></i>
@@ -867,17 +961,17 @@
                         <!-- Bottom Row -->
                         <div class="flex items-center justify-between pt-2 border-t border-white/10">
                             <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">TOPGEAR HQ</h3>
-                            <a href="https://wa.me/918792359555?text=Hi,%20I%20am%20interested%20in%20solutions%20like%20Topgear%20HQ" target="_blank" class="bg-gradient-to-r from-[#9810FA] to-[#E60076] hover:brightness-110 text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-lg shadow-purple-900/50 transform hover:scale-105 transition-all">
-                                Inquire <span class="text-sm font-bold">↗</span>
+                            <a href="https://www.topgearhq.in/" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-[#9810FA] to-[#E60076] hover:brightness-110 text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-lg shadow-purple-900/50 transform hover:scale-105 transition-all" onclick="event.stopPropagation()">
+                                Visit Website <span class="text-sm font-bold">↗</span>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 2: D24 STUDIO (Amber & Burnt Orange Theme) -->
-                <div class="work-card work-card-d24 border border-orange-500/30 reveal" onclick="this.classList.toggle('is-active')">
+                <!-- Card 2: D24 STUDIO -->
+                <div class="work-card work-card-d24 border border-orange-500/30 reveal" onclick="window.open('https://www.d24.studio/', '_blank', 'noopener,noreferrer')">
                     <!-- Default State -->
-                    <div class="work-card-default bg-gradient-to-b from-[#22130E] via-[#57291A] to-[#9E3D18]">
+                    <div class="work-card-default">
                         <div></div>
                         <div class="flex items-center justify-center py-12 px-6">
                             <img src="/icons/work_d24.png" alt="D24 STUDIO" class="max-h-24 sm:max-h-28 w-auto object-contain drop-shadow-[0_0_25px_rgba(255,100,50,0.5)] select-none" draggable="false">
@@ -897,7 +991,7 @@
                     <div class="work-card-hover">
                         <!-- Top Header Row -->
                         <div class="flex items-center justify-between gap-2 pb-2">
-                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 shadow-inner">
+                            <div class="work-badge">
                                 <span class="w-2 h-2 rounded-full bg-white/90"></span>
                                 <span class="text-[11px] font-black tracking-wider text-white uppercase">DELIVERED SOLUTIONS</span>
                             </div>
@@ -907,12 +1001,12 @@
                         <!-- Solutions Capsules Stack -->
                         <div class="space-y-3 my-auto py-2">
                             <!-- Capsule 1 -->
-                            <div class="bg-black/35 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 flex items-center justify-between shadow-lg">
+                            <div class="work-capsule">
                                 <div class="flex items-center gap-3 min-w-0">
-                                    <div class="w-10 h-10 rounded-xl bg-orange-600/35 border border-orange-400/30 flex items-center justify-center text-white flex-shrink-0 shadow-inner">
+                                    <div class="w-10 h-10 rounded-xl bg-orange-600/35 border border-orange-400/30 flex items-center justify-center text-orange-200 flex-shrink-0 shadow-inner">
                                         <i data-lucide="film" class="w-5 h-5"></i>
                                     </div>
-                                    <span class="text-sm sm:text-base font-bold text-white tracking-wide truncate">3D Anamorphic videos</span>
+                                    <span class="text-xs sm:text-sm font-bold text-white tracking-wide">3D Anamorphic videos</span>
                                 </div>
                                 <div class="w-5 h-5 rounded-full border border-teal-400/90 bg-teal-400/10 flex items-center justify-center text-teal-300 flex-shrink-0 ml-2">
                                     <i data-lucide="check" class="w-3 h-3 stroke-[3]"></i>
@@ -920,12 +1014,12 @@
                             </div>
 
                             <!-- Capsule 2 -->
-                            <div class="bg-black/35 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 flex items-center justify-between shadow-lg">
+                            <div class="work-capsule">
                                 <div class="flex items-center gap-3 min-w-0">
-                                    <div class="w-10 h-10 rounded-xl bg-orange-600/35 border border-orange-400/30 flex items-center justify-center text-white flex-shrink-0 shadow-inner">
+                                    <div class="w-10 h-10 rounded-xl bg-orange-600/35 border border-orange-400/30 flex items-center justify-center text-orange-200 flex-shrink-0 shadow-inner">
                                         <i data-lucide="palette" class="w-5 h-5"></i>
                                     </div>
-                                    <span class="text-sm sm:text-base font-bold text-white tracking-wide truncate">Brand identity &amp; visual motion</span>
+                                    <span class="text-xs sm:text-sm font-bold text-white tracking-wide">Brand identity &amp; visual motion</span>
                                 </div>
                                 <div class="w-5 h-5 rounded-full border border-teal-400/90 bg-teal-400/10 flex items-center justify-center text-teal-300 flex-shrink-0 ml-2">
                                     <i data-lucide="check" class="w-3 h-3 stroke-[3]"></i>
@@ -933,12 +1027,12 @@
                             </div>
 
                             <!-- Capsule 3 -->
-                            <div class="bg-black/35 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 flex items-center justify-between shadow-lg">
+                            <div class="work-capsule">
                                 <div class="flex items-center gap-3 min-w-0">
-                                    <div class="w-10 h-10 rounded-xl bg-orange-600/35 border border-orange-400/30 flex items-center justify-center text-white flex-shrink-0 shadow-inner">
+                                    <div class="w-10 h-10 rounded-xl bg-orange-600/35 border border-orange-400/30 flex items-center justify-center text-orange-200 flex-shrink-0 shadow-inner">
                                         <i data-lucide="sparkles" class="w-5 h-5"></i>
                                     </div>
-                                    <span class="text-sm sm:text-base font-bold text-white tracking-wide truncate">Marketing video production</span>
+                                    <span class="text-xs sm:text-sm font-bold text-white tracking-wide">Marketing video production</span>
                                 </div>
                                 <div class="w-5 h-5 rounded-full border border-teal-400/90 bg-teal-400/10 flex items-center justify-center text-teal-300 flex-shrink-0 ml-2">
                                     <i data-lucide="check" class="w-3 h-3 stroke-[3]"></i>
@@ -949,17 +1043,17 @@
                         <!-- Bottom Row -->
                         <div class="flex items-center justify-between pt-2 border-t border-white/10">
                             <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">D24 STUDIO</h3>
-                            <a href="https://wa.me/918792359555?text=Hi,%20I%20am%20interested%20in%20solutions%20like%20D24%20Studio" target="_blank" class="bg-gradient-to-r from-[#EA580C] to-[#E60076] hover:brightness-110 text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-lg shadow-orange-950/50 transform hover:scale-105 transition-all">
-                                Inquire <span class="text-sm font-bold">↗</span>
+                            <a href="https://www.d24.studio/" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-[#EA580C] to-[#E60076] hover:brightness-110 text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-lg shadow-orange-950/50 transform hover:scale-105 transition-all" onclick="event.stopPropagation()">
+                                Visit Website <span class="text-sm font-bold">↗</span>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3: SR GROUP (Sapphire Blue Theme) -->
-                <div class="work-card work-card-srgroup border border-blue-500/30 reveal" onclick="this.classList.toggle('is-active')">
+                <!-- Card 3: SR GROUP -->
+                <div class="work-card work-card-srgroup border border-blue-500/30 reveal" onclick="window.open('https://srgroupind.com/', '_blank', 'noopener,noreferrer')">
                     <!-- Default State -->
-                    <div class="work-card-default bg-gradient-to-b from-[#07172E] via-[#0B2B5A] to-[#0E489E]">
+                    <div class="work-card-default">
                         <div></div>
                         <div class="flex items-center justify-center py-12 px-6">
                             <img src="/icons/work_srgroup.png" alt="SR GROUP" class="max-h-20 sm:max-h-24 w-auto object-contain drop-shadow-[0_0_20px_rgba(56,189,248,0.4)] select-none" draggable="false">
@@ -979,7 +1073,7 @@
                     <div class="work-card-hover">
                         <!-- Top Header Row -->
                         <div class="flex items-center justify-between gap-2 pb-2">
-                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 shadow-inner">
+                            <div class="work-badge">
                                 <span class="w-2 h-2 rounded-full bg-white/90"></span>
                                 <span class="text-[11px] font-black tracking-wider text-white uppercase">DELIVERED SOLUTIONS</span>
                             </div>
@@ -989,12 +1083,12 @@
                         <!-- Solutions Capsules Stack -->
                         <div class="space-y-3 my-auto py-2">
                             <!-- Capsule 1 -->
-                            <div class="bg-black/35 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 flex items-center justify-between shadow-lg">
+                            <div class="work-capsule">
                                 <div class="flex items-center gap-3 min-w-0">
-                                    <div class="w-10 h-10 rounded-xl bg-blue-600/35 border border-blue-400/30 flex items-center justify-center text-white flex-shrink-0 shadow-inner">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-600/35 border border-blue-400/30 flex items-center justify-center text-blue-200 flex-shrink-0 shadow-inner">
                                         <i data-lucide="monitor" class="w-5 h-5"></i>
                                     </div>
-                                    <span class="text-sm sm:text-base font-bold text-white tracking-wide truncate">High-converting corporate website</span>
+                                    <span class="text-xs sm:text-sm font-bold text-white tracking-wide">High-converting corporate website</span>
                                 </div>
                                 <div class="w-5 h-5 rounded-full border border-teal-400/90 bg-teal-400/10 flex items-center justify-center text-teal-300 flex-shrink-0 ml-2">
                                     <i data-lucide="check" class="w-3 h-3 stroke-[3]"></i>
@@ -1002,12 +1096,12 @@
                             </div>
 
                             <!-- Capsule 2 -->
-                            <div class="bg-black/35 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 flex items-center justify-between shadow-lg">
+                            <div class="work-capsule">
                                 <div class="flex items-center gap-3 min-w-0">
-                                    <div class="w-10 h-10 rounded-xl bg-blue-600/35 border border-blue-400/30 flex items-center justify-center text-white flex-shrink-0 shadow-inner">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-600/35 border border-blue-400/30 flex items-center justify-center text-blue-200 flex-shrink-0 shadow-inner">
                                         <i data-lucide="search" class="w-5 h-5"></i>
                                     </div>
-                                    <span class="text-sm sm:text-base font-bold text-white tracking-wide truncate">Google Business optimization</span>
+                                    <span class="text-xs sm:text-sm font-bold text-white tracking-wide">Google Business optimization</span>
                                 </div>
                                 <div class="w-5 h-5 rounded-full border border-teal-400/90 bg-teal-400/10 flex items-center justify-center text-teal-300 flex-shrink-0 ml-2">
                                     <i data-lucide="check" class="w-3 h-3 stroke-[3]"></i>
@@ -1015,12 +1109,12 @@
                             </div>
 
                             <!-- Capsule 3 -->
-                            <div class="bg-black/35 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 flex items-center justify-between shadow-lg">
+                            <div class="work-capsule">
                                 <div class="flex items-center gap-3 min-w-0">
-                                    <div class="w-10 h-10 rounded-xl bg-blue-600/35 border border-blue-400/30 flex items-center justify-center text-white flex-shrink-0 shadow-inner">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-600/35 border border-blue-400/30 flex items-center justify-center text-blue-200 flex-shrink-0 shadow-inner">
                                         <i data-lucide="phone-call" class="w-5 h-5"></i>
                                     </div>
-                                    <span class="text-sm sm:text-base font-bold text-white tracking-wide truncate">Direct WhatsApp &amp; call routing</span>
+                                    <span class="text-xs sm:text-sm font-bold text-white tracking-wide">Direct WhatsApp &amp; call routing</span>
                                 </div>
                                 <div class="w-5 h-5 rounded-full border border-teal-400/90 bg-teal-400/10 flex items-center justify-center text-teal-300 flex-shrink-0 ml-2">
                                     <i data-lucide="check" class="w-3 h-3 stroke-[3]"></i>
@@ -1031,8 +1125,8 @@
                         <!-- Bottom Row -->
                         <div class="flex items-center justify-between pt-2 border-t border-white/10">
                             <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">SR GROUP</h3>
-                            <a href="https://wa.me/918792359555?text=Hi,%20I%20am%20interested%20in%20solutions%20like%20SR%20Group" target="_blank" class="bg-gradient-to-r from-[#1673ff] to-[#06B6D4] hover:brightness-110 text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-lg shadow-blue-950/50 transform hover:scale-105 transition-all">
-                                Inquire <span class="text-sm font-bold">↗</span>
+                            <a href="https://srgroupind.com/" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-[#1673ff] to-[#06B6D4] hover:brightness-110 text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-lg shadow-blue-950/50 transform hover:scale-105 transition-all" onclick="event.stopPropagation()">
+                                Visit Website <span class="text-sm font-bold">↗</span>
                             </a>
                         </div>
                     </div>
@@ -1047,10 +1141,13 @@
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <span class="tttt-letter font-black" style="color: #000000;">E</span>
                     </div>
-                    <div class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 md:top-auto md:translate-y-0 md:bottom-6 md:left-6 lg:bottom-8 lg:left-8 z-10">
-                        <div class="bg-white rounded-2xl px-3.5 py-1.5 sm:px-4 sm:py-2 md:px-4 md:py-2 lg:px-5 lg:py-2.5 shadow-md md:shadow-lg flex items-center justify-center select-none">
+                    <div class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 md:top-auto md:translate-y-0 md:bottom-6 md:left-6 lg:bottom-8 lg:left-8 z-10 flex flex-col gap-1 pointer-events-none">
+                        <div class="tttt-badge bg-white rounded-2xl px-3.5 py-1.5 sm:px-4 sm:py-2 md:px-4 md:py-2 lg:px-5 lg:py-2.5 shadow-md md:shadow-lg flex items-center justify-center select-none w-fit">
                             <span class="text-xs sm:text-sm md:text-base lg:text-lg font-black text-gray-950 tracking-wide whitespace-nowrap">Exceptional</span>
                         </div>
+                        <p class="tttt-subtext text-[11px] sm:text-xs md:text-sm font-extrabold text-black/80 tracking-wide max-w-[220px] leading-tight">
+                            Design &amp; performance that exceed standards
+                        </p>
                     </div>
                 </div>
 
@@ -1059,10 +1156,13 @@
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <span class="tttt-letter font-black" style="color: #000000;">R</span>
                     </div>
-                    <div class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 md:top-auto md:translate-y-0 md:bottom-6 md:left-6 lg:bottom-8 lg:left-8 z-10">
-                        <div class="bg-white rounded-2xl px-3.5 py-1.5 sm:px-4 sm:py-2 md:px-4 md:py-2 lg:px-5 lg:py-2.5 shadow-md md:shadow-lg flex items-center justify-center select-none">
+                    <div class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 md:top-auto md:translate-y-0 md:bottom-6 md:left-6 lg:bottom-8 lg:left-8 z-10 flex flex-col gap-1 pointer-events-none">
+                        <div class="tttt-badge bg-white rounded-2xl px-3.5 py-1.5 sm:px-4 sm:py-2 md:px-4 md:py-2 lg:px-5 lg:py-2.5 shadow-md md:shadow-lg flex items-center justify-center select-none w-fit">
                             <span class="text-xs sm:text-sm md:text-base lg:text-lg font-black text-gray-950 tracking-wide whitespace-nowrap">Reliable</span>
                         </div>
+                        <p class="tttt-subtext text-[11px] sm:text-xs md:text-sm font-extrabold text-white/95 tracking-wide max-w-[220px] leading-tight">
+                            Dependable 24/7 delivery &amp; dedicated support
+                        </p>
                     </div>
                 </div>
 
@@ -1071,10 +1171,13 @@
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <span class="tttt-letter font-black" style="color: #000000;">I</span>
                     </div>
-                    <div class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 md:top-auto md:translate-y-0 md:bottom-6 md:left-6 lg:bottom-8 lg:left-8 z-10">
-                        <div class="bg-white rounded-2xl px-3.5 py-1.5 sm:px-4 sm:py-2 md:px-4 md:py-2 lg:px-5 lg:py-2.5 shadow-md md:shadow-lg flex items-center justify-center select-none">
+                    <div class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 md:top-auto md:translate-y-0 md:bottom-6 md:left-6 lg:bottom-8 lg:left-8 z-10 flex flex-col gap-1 pointer-events-none">
+                        <div class="tttt-badge bg-white rounded-2xl px-3.5 py-1.5 sm:px-4 sm:py-2 md:px-4 md:py-2 lg:px-5 lg:py-2.5 shadow-md md:shadow-lg flex items-center justify-center select-none w-fit">
                             <span class="text-xs sm:text-sm md:text-base lg:text-lg font-black text-gray-950 tracking-wide whitespace-nowrap">Innovative</span>
                         </div>
+                        <p class="tttt-subtext text-[11px] sm:text-xs md:text-sm font-extrabold text-gray-900 tracking-wide max-w-[220px] leading-tight">
+                            Modern interactive &amp; future-ready tech
+                        </p>
                     </div>
                 </div>
 
@@ -1083,10 +1186,13 @@
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <span class="tttt-letter font-black" style="color: #3D2800;">P</span>
                     </div>
-                    <div class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 md:top-auto md:translate-y-0 md:bottom-6 md:left-6 lg:bottom-8 lg:left-8 z-10">
-                        <div class="bg-white rounded-2xl px-3.5 py-1.5 sm:px-4 sm:py-2 md:px-4 md:py-2 lg:px-5 lg:py-2.5 shadow-md md:shadow-lg flex items-center justify-center select-none">
+                    <div class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 md:top-auto md:translate-y-0 md:bottom-6 md:left-6 lg:bottom-8 lg:left-8 z-10 flex flex-col gap-1 pointer-events-none">
+                        <div class="tttt-badge bg-white rounded-2xl px-3.5 py-1.5 sm:px-4 sm:py-2 md:px-4 md:py-2 lg:px-5 lg:py-2.5 shadow-md md:shadow-lg flex items-center justify-center select-none w-fit">
                             <span class="text-xs sm:text-sm md:text-base lg:text-lg font-black text-gray-950 tracking-wide whitespace-nowrap">Professional</span>
                         </div>
+                        <p class="tttt-subtext text-[11px] sm:text-xs md:text-sm font-extrabold text-[#3D2800] tracking-wide max-w-[220px] leading-tight">
+                            Highest standards for ambitious businesses
+                        </p>
                     </div>
                 </div>
             </div>
@@ -1387,6 +1493,152 @@
         revealElements.forEach(el => {
             revealObserver.observe(el);
         });
+
+        // Mobile Viewport Scroll Trigger for Work Cards
+        // Automatically activates PC hover effect when card is in the main viewport frame on mobile/tablet,
+        // and smoothly reverts back when scrolled out of view.
+        function initMobileWorkCards() {
+            const cards = document.querySelectorAll('.work-card');
+            if (!cards.length) return;
+
+            let ticking = false;
+
+            function checkCards() {
+                // On desktop (>= 1024px), mouse hover handles it natively; clear is-active
+                if (window.innerWidth >= 1024) {
+                    cards.forEach(card => card.classList.remove('is-active'));
+                    return;
+                }
+
+                const viewportCenter = window.innerHeight / 2;
+                let closestCard = null;
+                let minDistance = Infinity;
+
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    // Check if card is visible on screen
+                    if (rect.bottom > 80 && rect.top < window.innerHeight - 80) {
+                        const cardCenter = rect.top + rect.height / 2;
+                        const dist = Math.abs(cardCenter - viewportCenter);
+                        if (dist < minDistance) {
+                            minDistance = dist;
+                            closestCard = card;
+                        }
+                    }
+                });
+
+                // Focus threshold: within 42% of viewport center
+                const threshold = window.innerHeight * 0.42;
+
+                cards.forEach(card => {
+                    if (card === closestCard && minDistance < threshold) {
+                        card.classList.add('is-active');
+                    } else {
+                        card.classList.remove('is-active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        checkCards();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            window.addEventListener('resize', checkCards, { passive: true });
+            // Initial check
+            checkCards();
+        }
+
+        initMobileWorkCards();
+
+        // Mobile Viewport Scroll Trigger & Tap Interaction for ERIP Section
+        // Automatically expands the section currently in the main device frame on mobile/tablet,
+        // and smoothly reverts back when scrolled out of view.
+        function initMobileERIPScroll() {
+            const container = document.querySelector('.tttt-container');
+            if (!container) return;
+            const sections = container.querySelectorAll('.tttt-section');
+            if (!sections.length) return;
+
+            // Allow click/tap to toggle/activate a section on all devices
+            sections.forEach((sec) => {
+                sec.addEventListener('click', () => {
+                    const wasActive = sec.classList.contains('is-active');
+                    sections.forEach(s => s.classList.remove('is-active'));
+                    if (!wasActive) {
+                        sec.classList.add('is-active');
+                        container.classList.add('has-active');
+                    } else {
+                        container.classList.remove('has-active');
+                    }
+                });
+            });
+
+            let ticking = false;
+
+            function checkERIP() {
+                // On desktop (>= 1024px), mouse hover handles it natively
+                if (window.innerWidth >= 1024) {
+                    sections.forEach(s => s.classList.remove('is-active'));
+                    container.classList.remove('has-active');
+                    return;
+                }
+
+                const rect = container.getBoundingClientRect();
+                const viewportCenter = window.innerHeight / 2;
+
+                // Check if the ERIP container is currently in the main screen frame
+                if (rect.bottom > 120 && rect.top < window.innerHeight - 120) {
+                    let closestSection = null;
+                    let minDistance = Infinity;
+
+                    sections.forEach(sec => {
+                        const secRect = sec.getBoundingClientRect();
+                        const secCenter = secRect.top + secRect.height / 2;
+                        const dist = Math.abs(secCenter - viewportCenter);
+                        if (dist < minDistance) {
+                            minDistance = dist;
+                            closestSection = sec;
+                        }
+                    });
+
+                    if (closestSection) {
+                        sections.forEach(sec => {
+                            if (sec === closestSection) {
+                                sec.classList.add('is-active');
+                            } else {
+                                sec.classList.remove('is-active');
+                            }
+                        });
+                        container.classList.add('has-active');
+                    }
+                } else {
+                    // Out of device frame -> revert back to default equal bands
+                    sections.forEach(s => s.classList.remove('is-active'));
+                    container.classList.remove('has-active');
+                }
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        checkERIP();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            window.addEventListener('resize', checkERIP, { passive: true });
+            checkERIP();
+        }
+
+        initMobileERIPScroll();
     </script>
 </body>
 
